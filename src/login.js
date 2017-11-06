@@ -10,6 +10,7 @@ const {
 } = require("tabris");
 const MainPage = require("./main");
 const { Warning } = require("./utils");
+const { ADDRESS } =require("./const"); 
 module.exports = class LoginPage extends Page {
   constructor(properties) {
     super(Object.assign({ autoDispose: false }, properties));
@@ -64,7 +65,15 @@ module.exports = class LoginPage extends Page {
         let data = {account:account.text,password:password.text};
         data = JSON.stringify(data);
         console.log(data)
-        fetch('http://192.168.43.55:7080/hello/mark').then(res => {
+        fetch(`${ADDRESS}login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": " application/json"
+          },
+          credentials: "include",
+          mode: "cors",
+          body: data
+        }).then(res => {
           console.log(res)
          // return res.body;
           return res.json();
@@ -116,22 +125,34 @@ module.exports = class LoginPage extends Page {
       text: "注册"
     })
       .on("select", ({ target }) => {
-        Warning(text22.text !== text23.text, "两次输入不一致");
+        let data = {account:text12.text,password:text22.text};
+        data = JSON.stringify(data);
+        if(text22.text !== text23.text){
+          Warning("两次输入不一致");          
+        } else {
+          fetch(`${ADDRESS}registered`, {
+            method: "POST",
+            headers: {
+              "Content-Type": " application/json"
+            },
+            credentials: "include",
+            mode: "cors",
+            body: data
+          }).then(res => {
+            console.log(res)
+           // return res.body;
+            return res.json();
+          }).then(data=>{
+            console.log(data)
+          }).catch(e=>{
+            console.log("@@@@@",e)
+          })
+        }
+        
       })
       .appendTo(composite2);
   }
-  // Warning(message) {
-  //   let warning = new TextView({
-  //     top: 50,
-  //     centerX: 0,
-  //     markupEnabled: "strong",
-  //     textColor: "red",
-  //     text: message
-  //   }).appendTo(this);
-  //   setTimeout(() => {
-  //     warning.dispose();
-  //   }, 3000);
-  // }
+
   applyLayout() {
     // this.find("#booksList").set({ left: 0, top: 0, right: 0, bottom: 0 });
   }
