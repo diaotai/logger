@@ -1,0 +1,92 @@
+[
+  {
+    "title": "1984",
+    "author": "H.G. Wells",
+    "image": "images/book_1984.jpg",
+    "popular": false,
+    "score":"+80",
+    "status":"finish",
+    "classs":"每日任务",
+    "favorite": false
+  },
+  {
+    "title": "Na Tropie Nieznanych",
+    "author": "Bernard Heuvelmans",
+    "image": "images/book_na_tropie.jpg",
+    "popular": false,
+    "score":"+80",
+    "status":"unfinished",
+    "classs":"每日任务",
+    "favorite": true
+  },
+  {
+    "title": "Stary Czlowiek I Morze",
+    "author": "Ernest Hemingway",
+    "image": "images/book_stary.jpg",
+    "popular": true,
+    "status":"unfinished",
+    "classs":"阶段任务",
+    "score":"+80",
+    "favorite": true
+  },
+  {
+    "title": "The Catcher In The Rye",
+    "author": "J.D. Salinger",
+    "image": "images/book_catcher.jpg",
+    "popular": true,
+    "status":"fail",
+    "score":"+80",
+    "classs":"每日任务",
+    "favorite": true
+  },
+  {
+    "title": "Moby Dick",
+    "classs":"每日任务",
+    "author": "Herman Melville",
+    "image": "images/book_moby_dick.jpg",
+    "score":"+80",
+    "popular": false,
+    "status":"fail",
+    "favorite": true
+  },
+  {
+    "title": "Hobbit",
+    "classs":"阶段任务",
+    "author": "J.R.R Tolkien",
+    "image": "images/book_hobbit.jpg",
+    "score":"+80",
+    "status":"fail",
+    "popular": true,
+    "favorite": false
+  },
+  {
+    "title": "Wojna Swiatow",
+    "classs":"普通任务",
+    "author": "H.G. Wells",
+    "image": "images/book_wojna.jpg",
+    "popular": true,
+    "status":"finish",
+    "score":"+80",
+    "favorite": true
+  },
+  {
+    "title": "Zegar Pomaranczowy Pracz",
+    "classs":"每周任务",
+    "author": "Anthony Burgess",
+    "image": "images/book_zegar.jpg",
+    "popular": true,
+    "status":"finish",
+    "score":"+80",
+    "favorite": true
+  },
+  {
+    "title": "Ksiega Dzungli",
+    "classs":"每周任务",
+    "author": "Rudyard Kipling",
+    "image": "images/book_ksiega.jpg",
+    "popular": true,
+    "status":"finish",
+    "score":"+80",
+    "favorite": true
+  }
+]
