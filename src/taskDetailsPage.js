@@ -54,18 +54,19 @@ module.exports = class DetailsPage extends Page {
       text: "完成"
     })
       .on("select", ({ target }) => {
+        let data;
         if (Object.keys(this.data).length!=0) {
-          console.log("未成熟")
-          let data = Object.assign(this.data, {
-            title: getTextValue("title"),
-            score: getTextValue("score"),
-            stime: getTextValue("times"),
-            type: getTextValue("type"),
-            clas: ui.find("classs").selectionIndex
+          // console.log("未成熟")
+          data = Object.assign(this.data, {
+            title: Ititle.text,
+            score: Iscore.text,
+            stime:Itimes.text,
+            type: Itype.text,
+            clas: Ipicker.selectionIndex
           });
         } else {
-          console.log("存储task",this.find("#title").text)
-          let data = {
+        //  console.log("存储task",this.find("#title").text)
+          data = {
             title: Ititle.text,
             score: Iscore.text,
             stime: Itimes.text,
@@ -76,16 +77,17 @@ module.exports = class DetailsPage extends Page {
             account: localStorage.getItem("account"),
             initTime: new Date().valueOf()
           };
-          console.log(data)
-          basicPost("task/save", data, data => {
-            if(data.result=="fail"){
-              Warning(data.message)
-            } else {
-              console.log("存储成功");
-              Warning(data.message)
-            }
-          });
+          // console.log(data)
+         
         }
+        basicPost("task/save", data, data => {
+          if(data.result=="fail"){
+            Warning(data.message)
+          } else {
+            console.log("存储成功");
+            Warning(data.message)
+          }
+        });
       })
       .appendTo(detailsView);
     new Button({
