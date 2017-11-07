@@ -66,6 +66,6 @@ module.exports = {
     return textInput;
   },
   getTextValue: id => {
-    return ui.find(id).text;
+    return ui.find(`#{id}`).text;
   }
 };

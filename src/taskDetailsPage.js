@@ -11,35 +11,20 @@ const {
 } = require("tabris");
 
 const { CLASS } = require("./const");
-const { createTextInput, getTextValue } = require("./utils");
+const { createTextInput, getTextValue, Warning } = require("./utils");
 const { basicPost } = require("./fetch");
 
 module.exports = class DetailsPage extends Page {
   constructor(properties) {
     super(Object.assign({ autoDispose: true }, properties));
-    // this.data = properties;
     this.createUI();
     this.applyLayout();
-    // this.on("dispose", () => {
-    //   createAction();
-    //   console.log("dispose");
-    // });
   }
   set data(data) {
     this._data = data;
   }
   get data() {
     return this._data;
-  }
-  handleSubmit() {
-    let data = Object.assign(this.data, {
-      title: getTextValue("title"),
-      score: getTextValue("score"),
-      stime: getTextValue("times"),
-      type: getTextValue("type"),
-      clas: ui.find("classs").selectionIndex
-    });
-    basicPost("task/save", data, data => {});
   }
   createUI() {
     let { title, head, score, clas, type, stime, handleClick } = this.data;
@@ -48,10 +33,10 @@ module.exports = class DetailsPage extends Page {
       clas = 0;
     }
     let detailsView = new Composite({ id: "detailsView" }).appendTo(this);
-    createTextInput("title", title, detailsView);
-    createTextInput("score", score, detailsView);
-    createTextInput("times", stime, detailsView);
-    let picker = new Picker({
+    let Ititle= createTextInput("title", title, detailsView);
+    let Iscore= createTextInput("score", score, detailsView);
+    let Itimes= createTextInput("times", stime, detailsView);
+    let Ipicker = new Picker({
       id: "classs",
       //left: 20,
       top: "prev()",
@@ -60,7 +45,7 @@ module.exports = class DetailsPage extends Page {
       itemText: index => CLASS[index],
       selectionIndex: clas
     }).appendTo(detailsView);
-    createTextInput("type", type, detailsView);
+    let Itype= createTextInput("type", type, detailsView);
     new Button({
       id: "submit",
       left: "5%",
@@ -69,7 +54,38 @@ module.exports = class DetailsPage extends Page {
       text: "完成"
     })
       .on("select", ({ target }) => {
-        handleClick();
+        if (Object.keys(this.data).length!=0) {
+          console.log("未成熟")
+          let data = Object.assign(this.data, {
+            title: getTextValue("title"),
+            score: getTextValue("score"),
+            stime: getTextValue("times"),
+            type: getTextValue("type"),
+            clas: ui.find("classs").selectionIndex
+          });
+        } else {
+          console.log("存储task",this.find("#title").text)
+          let data = {
+            title: Ititle.text,
+            score: Iscore.text,
+            stime: Itimes.text,
+            ftime: 0,
+            type: Itype.text,
+            clas: Ipicker.selectionIndex,
+            status: 1,
+            account: localStorage.getItem("account"),
+            initTime: new Date().valueOf()
+          };
+          console.log(data)
+          basicPost("task/save", data, data => {
+            if(data.result=="fail"){
+              Warning(data.message)
+            } else {
+              console.log("存储成功");
+              Warning(data.message)
+            }
+          });
+        }
       })
       .appendTo(detailsView);
     new Button({
@@ -119,4 +135,5 @@ module.exports = class DetailsPage extends Page {
       top: ["#type", "0"]
     });
   }
+
 };

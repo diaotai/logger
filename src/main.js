@@ -26,9 +26,8 @@ module.exports = class MainPage extends Page {
     this.on("appear", () => {
       if (this.pos == "任务") {
         createAction(null, () => {
-          let data = {};
           const DetailsPage = require("./taskDetailsPage");
-          new DetailsPage({ data }).appendTo(ui.find("NavigationView").first());
+          new DetailsPage({data:{}}).appendTo(ui.find("NavigationView").first());
           console.log("Action");
         });
       } else if (this.pos == "统计") {
