@@ -1,4 +1,4 @@
-const { Action, Button, TextView, ui, Tab } = require("tabris");
+const { Action, Button, TextView,TextInput, ui, Tab } = require("tabris");
 const DetailsPage = require("./taskDetailsPage");
 
 module.exports = {
@@ -50,5 +50,19 @@ module.exports = {
     setTimeout(() => {
       warning.dispose();
     }, 1500);
+  },
+  createTextInput: (message, text, to) => {
+    if (!text) {
+      text = "";
+    }
+    let textInput = new TextInput({
+      id: message,
+      top: "prev() 10",
+      left: "5%",
+      right: "5%",
+      message,
+      text
+    }).appendTo(to);
+    return textInput;
   }
 };

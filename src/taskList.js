@@ -70,7 +70,7 @@ module.exports = class TasksList extends CollectionView {
 
   updateCell(view, index) {
     super.updateCell(view, index);
-    let { title, author, score } = this.tasks[index];
+    let { title, author, score,stime,ftime } = this.tasks[index];
     Object.assign(view, { title, author, score });
   }
 };

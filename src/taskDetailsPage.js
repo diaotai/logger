@@ -11,22 +11,7 @@ const {
 } = require("tabris");
 
 const { CLASS } = require("./const");
-// const { createAction } = require("./utils");
-
-function createTextInput(message, text, to) {
-  if (!text) {
-    text = "";
-  }
-  let textInput = new TextInput({
-    id: message,
-    top: "prev() 10",
-    left: "5%",
-    right: "5%",
-    message,
-    text
-  }).appendTo(to);
-  return textInput;
-}
+const { createTextInput } = require("./utils");
 
 module.exports = class DetailsPage extends Page {
   constructor(properties) {
@@ -46,15 +31,15 @@ module.exports = class DetailsPage extends Page {
     return this._data;
   }
   createUI() {
-    let { title, head, score, classs, type, times, handleClick } = this.data;
+    let { title, head, score, classs, type, stime, handleClick } = this.data;
     ui.find("#addAction").dispose();
-    if(!classs){
-      classs=""
+    if (!classs) {
+      classs = "";
     }
     let detailsView = new Composite({ id: "detailsView" }).appendTo(this);
     createTextInput("title", title, detailsView);
     createTextInput("score", score, detailsView);
-    createTextInput("times", times, detailsView);
+    createTextInput("times", stime, detailsView);
     let picker = new Picker({
       id: "classs",
       //left: 20,

@@ -9,8 +9,6 @@ class Task extends Composite {
   constructor(properties) {
     super(Object.assign({ highlightOnTouch: true }, properties));
     this._createUI();
-    // this._applyLayout();
-    // this._applyStyles();
   }
 
   set data(data) {
