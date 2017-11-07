@@ -22,19 +22,19 @@ module.exports = class MainPage extends Page {
     super(Object.assign({ autoDispose: false }, properties));
     this.createUI();
     this.applyLayout();
-    this.pos = "任务"
+    this.pos = "任务";
     this.on("appear", () => {
-      if(this.pos=="任务"){
+      if (this.pos == "任务") {
         createAction(null, () => {
           let data = {};
           const DetailsPage = require("./taskDetailsPage");
           new DetailsPage({ data }).appendTo(ui.find("NavigationView").first());
           console.log("Action");
         });
-      } else if(this.pos=="统计"){
+      } else if (this.pos == "统计") {
         createAction(null, () => {
           let data = {};
-       
+
           new BillPage().appendTo(ui.find("NavigationView").first());
           console.log("Action");
           ui.find("#addAction").dispose();
@@ -42,10 +42,17 @@ module.exports = class MainPage extends Page {
       }
     });
   }
- 
+
+  get data() {
+    return this._data;
+  }
+  set data(data) {
+    this._data = data;
+  }
+
   createUI() {
     let tabFolder = new TabFolder({
-      id:"position",
+      id: "position",
       left: 0,
       right: 0,
       bottom: 5,
@@ -55,15 +62,15 @@ module.exports = class MainPage extends Page {
     }).appendTo(this);
     //  createAction();
     let taskTab = createTab("任务");
-    Task.appendTo(taskTab);
+    new Task({ id: "task", data: this.data }).appendTo(taskTab);
     let statisticsTab = createTab("统计");
     Statistics.appendTo(statisticsTab);
     let about = createTab("我");
     Account.appendTo(about);
     tabFolder.on("selectionChanged", ({ value: tab }) => {
-      console.log(tabFolder.selection.title,localStorage.getItem("account"))
+      console.log(tabFolder.selection.title, localStorage.getItem("account"));
       if (tab.title == "任务") {
-        this.pos="任务"
+        this.pos = "任务";
         createAction(null, () => {
           let data = {};
           const DetailsPage = require("./taskDetailsPage");
@@ -71,10 +78,10 @@ module.exports = class MainPage extends Page {
           console.log("Action");
         });
       } else if (tab.title == "统计") {
-        this.pos="统计"        
+        this.pos = "统计";
         createAction(null, () => {
           let data = {};
-     //     const BillPage = require("./billPage");
+          //     const BillPage = require("./billPage");
           new BillPage().appendTo(ui.find("NavigationView").first());
           console.log("Action");
           ui.find("#addAction").dispose();
@@ -97,6 +104,13 @@ module.exports = class MainPage extends Page {
       top: "prev() 5",
       right: 0,
       bottom: 40
+    });
+    this.find("#task").set({
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      //background: "red"
     });
   }
 };

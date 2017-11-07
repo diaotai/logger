@@ -84,7 +84,7 @@ module.exports = class LoginPage extends Page {
             } else {
               window.tasks = data.data;
               navigationView.pages().dispose();
-              new MainPage().appendTo(navigationView);
+              new MainPage({data:data.data}).appendTo(navigationView);
             }
           })
           .catch(e => {

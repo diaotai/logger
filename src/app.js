@@ -1,6 +1,6 @@
 const {Action, NavigationView, ui,TabFolder,Tab,TextView} = require('tabris');
 const LoginPage = require('./login');
-const Task = require('./task');
+// const Task = require('./task');
 
 // Create a swipe enabled tab folder with 3 tabs
 

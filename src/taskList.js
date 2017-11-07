@@ -9,7 +9,7 @@ const {
 } = require("tabris");
 // let tasks=require("./tasks") ;
 const { CLASS, STATUS, ADDRESS } = require("./const");
-let tasks=[];
+let tasks = [];
 if (window.tasks) {
   tasks = window.tasks;
   console.log("我被执行");
@@ -32,13 +32,11 @@ if (window.tasks) {
   //   .catch(e => {
   //     console.log("@@@@@", e);
   //   });
-  tasks = require("./tasks")
-  console.log("被执行")
+  tasks = require("./tasks");
+  console.log("被执行");
 }
 
-
 const DetailsPage = require("./taskDetailsPage");
-
 
 module.exports = class TasksList extends CollectionView {
   constructor(properties) {
@@ -58,6 +56,10 @@ module.exports = class TasksList extends CollectionView {
 
   set tasks(tasks) {
     this._tasks = tasks;
+  }
+
+  set data(data) {
+    this._data = data;
   }
 
   set classs(classs) {
