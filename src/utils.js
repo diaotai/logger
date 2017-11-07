@@ -1,4 +1,4 @@
-const { Action, Button, TextView,TextInput, ui, Tab } = require("tabris");
+const { Action, Button, TextView, TextInput, ui, Tab } = require("tabris");
 const DetailsPage = require("./taskDetailsPage");
 
 module.exports = {
@@ -64,5 +64,8 @@ module.exports = {
       text
     }).appendTo(to);
     return textInput;
+  },
+  getTextValue: id => {
+    return ui.find(id).text;
   }
 };

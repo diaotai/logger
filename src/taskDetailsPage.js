@@ -11,7 +11,8 @@ const {
 } = require("tabris");
 
 const { CLASS } = require("./const");
-const { createTextInput } = require("./utils");
+const { createTextInput, getTextValue } = require("./utils");
+const { basicPost } = require("./fetch");
 
 module.exports = class DetailsPage extends Page {
   constructor(properties) {
@@ -30,11 +31,21 @@ module.exports = class DetailsPage extends Page {
   get data() {
     return this._data;
   }
+  handleSubmit() {
+    let data = Object.assign(this.data, {
+      title: getTextValue("title"),
+      score: getTextValue("score"),
+      stime: getTextValue("times"),
+      type: getTextValue("type"),
+      clas: ui.find("classs").selectionIndex
+    });
+    basicPost("task/save", data, data => {});
+  }
   createUI() {
     let { title, head, score, clas, type, stime, handleClick } = this.data;
     ui.find("#addAction").dispose();
     if (!clas) {
-      clas = 0
+      clas = 0;
     }
     let detailsView = new Composite({ id: "detailsView" }).appendTo(this);
     createTextInput("title", title, detailsView);
