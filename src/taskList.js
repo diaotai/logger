@@ -8,12 +8,12 @@ const {
   ui
 } = require("tabris");
 const DetailsPage = require("./taskDetailsPage");
+const { STATUS, CLASS } = require("./const");
 
 module.exports = class TasksList extends CollectionView {
   constructor(properties) {
     super(Object.assign({ id: "tasksList", cellHeight: 72 }, properties));
     this._tasks = this.data.filter(this.filter);
-    console.log(this.data,"我被执行！！！！",this.tasks)
     this.on("select", ({ index }) => {
       let data = this.data[index];
       data = Object.assign(data, {});
@@ -29,7 +29,7 @@ module.exports = class TasksList extends CollectionView {
   set tasks(tasks) {
     this._tasks = tasks;
   }
-  
+
   get data() {
     return this._data;
   }
@@ -38,11 +38,11 @@ module.exports = class TasksList extends CollectionView {
     this._data = data;
   }
 
-  set classs(classs) {
-    this._class = classs;
+  set clas(clas) {
+    this._class = clas;
   }
 
-  get classs() {
+  get clas() {
     return this._class;
   }
 
@@ -51,15 +51,15 @@ module.exports = class TasksList extends CollectionView {
   }
 
   get filter() {
-    // if (this._filter) {
-    //   return item => {
-    //     // console.log(this._class == item.classs, "!!!!", this._class);
-    //     return (
-    //       (this._filter == "all" || item.status == this._filter) &&
-    //       this._class == item.classs
-    //     );
-    //   };
-    // }
+    if (this._filter) {
+      return item => {
+        console.log(item.status, "!!!!", this._filter);
+        return (
+          (this._filter == "all" || STATUS[item.status] == this._filter) &&
+          this._class == CLASS[item.clas]
+        );
+      };
+    }
     return () => true;
   }
 
@@ -70,7 +70,7 @@ module.exports = class TasksList extends CollectionView {
 
   updateCell(view, index) {
     super.updateCell(view, index);
-    let { title, author, score,stime,ftime } = this.tasks[index];
+    let { title, author, score, stime, ftime } = this.tasks[index];
     Object.assign(view, { title, author, score });
   }
 };
@@ -116,7 +116,6 @@ class TaskCell extends Composite {
       new TextView({ id: "titleLabel", markupEnabled: true }),
       new TextView({ id: "authorLabel" }),
       new TextView({ id: "scoreLabel", markupEnabled: true })
-      
     );
   }
 

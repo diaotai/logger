@@ -13,7 +13,6 @@ const {
 const TasksList = require("./taskList");
 // Create a swipe enabled tab folder with 3 tabs
 const Chart = require("chart.js");
-const { STATUS } = require("./const");
 const { createTab } = require("./utils");
 const data = require("./data.json");
 

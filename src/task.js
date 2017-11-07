@@ -75,7 +75,7 @@ class Task extends Composite {
         id: "tasksList",
         data: that.data,
         filter: data.filter || "all",
-        classs: data.title
+        clas: data.title
       }).appendTo(composite);
       composite
         .find("#tasksList")
@@ -94,7 +94,7 @@ class Task extends Composite {
         width: 100,
         bottom: 10,
         itemCount: STATUS.length,
-        itemText: index => STATUS[index].status,
+        itemText: index => STATUS[index],
         selectionIndex: data.selected || 0
       }).appendTo(composite);
       statusPicker.on("select", ({ index }) => {
@@ -103,7 +103,7 @@ class Task extends Composite {
         // composite.dispose();
         data = Object.assign({}, data, {
           selected: index,
-          filter: STATUS[selectionIndex].status
+          filter: STATUS[selectionIndex]
         });
         console.log(data);
         createTask(data, tab);
