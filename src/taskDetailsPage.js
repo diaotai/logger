@@ -31,10 +31,10 @@ module.exports = class DetailsPage extends Page {
     return this._data;
   }
   createUI() {
-    let { title, head, score, classs, type, stime, handleClick } = this.data;
+    let { title, head, score, clas, type, stime, handleClick } = this.data;
     ui.find("#addAction").dispose();
-    if (!classs) {
-      classs = "";
+    if (!clas) {
+      clas = 0
     }
     let detailsView = new Composite({ id: "detailsView" }).appendTo(this);
     createTextInput("title", title, detailsView);
@@ -47,7 +47,7 @@ module.exports = class DetailsPage extends Page {
       right: 20,
       itemCount: CLASS.length,
       itemText: index => CLASS[index],
-      selectionIndex: classs.indexOf(CLASS)
+      selectionIndex: clas
     }).appendTo(detailsView);
     createTextInput("type", type, detailsView);
     new Button({
