@@ -53,7 +53,6 @@ module.exports = class TasksList extends CollectionView {
   get filter() {
     if (this._filter) {
       return item => {
-        console.log(item.status, "!!!!", this._filter);
         return (
           (this._filter == "all" || STATUS[item.status] == this._filter) &&
           this._class == CLASS[item.clas]

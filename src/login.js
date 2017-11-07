@@ -11,6 +11,7 @@ const {
 const MainPage = require("./main");
 const { Warning } = require("./utils");
 const { ADDRESS } = require("./const");
+const { basicPost } = require("./fetch")
 module.exports = class LoginPage extends Page {
   constructor(properties) {
     super(Object.assign({ autoDispose: false }, properties));
@@ -64,32 +65,17 @@ module.exports = class LoginPage extends Page {
         localStorage.setItem("account",account.text);
         console.log("SELECT",account.text,localStorage.getItem("account"));
         let data = { account: account.text, password: password.text };
-        data = JSON.stringify(data);
-        console.log(data);
-        fetch(`${ADDRESS}login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": " application/json"
-          },
-          credentials: "include",
-          mode: "cors",
-          body: data
+        // data = JSON.stringify(data);
+        // console.log(data);
+        basicPost("login",data,(data)=>{
+          if (data.result == "fail") {
+            Warning(data.message);
+          } else {
+            window.tasks = data.data;
+            navigationView.pages().dispose();
+            new MainPage({data:data.data}).appendTo(navigationView);
+          }
         })
-          .then(res => {
-            return res.json();
-          })
-          .then(data => {
-            if (data.result == "fail") {
-              Warning(data.message);
-            } else {
-              window.tasks = data.data;
-              navigationView.pages().dispose();
-              new MainPage({data:data.data}).appendTo(navigationView);
-            }
-          })
-          .catch(e => {
-            console.log("@@@@@", e);
-          });
       })
       .appendTo(composite);
 
@@ -131,32 +117,17 @@ module.exports = class LoginPage extends Page {
     })
       .on("select", ({ target }) => {
         let data = { account: text12.text, password: text22.text };
-        data = JSON.stringify(data);
+       // data = JSON.stringify(data);
         if (text22.text !== text23.text) {
           Warning("两次输入不一致");
         } else {
-          fetch(`${ADDRESS}registered`, {
-            method: "POST",
-            headers: {
-              "Content-Type": " application/json"
-            },
-            credentials: "include",
-            mode: "cors",
-            body: data
+          basicPost("registered",data,(data)=>{
+            if (data.result == "fail") {
+              Warning(data.message);
+            } else {
+              Warning("已注册成功,请登陆");
+            }
           })
-            .then(res => {
-              return res.json();
-            })
-            .then(data => {
-              if (data.result == "fail") {
-                Warning(data.message);
-              } else {
-                Warning("已注册成功,请登陆");
-              }
-            })
-            .catch(e => {
-              console.log("@@@@@", e);
-            });
         }
       })
       .appendTo(composite2);
