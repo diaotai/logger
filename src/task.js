@@ -1,8 +1,9 @@
 const { Tab, TabFolder, TextView, Picker, Composite } = require("tabris");
-const TasksList = require("./taskList");
+
 // Create a swipe enabled tab folder with 3 tabs
 
-const { STATUS } = require("./const");
+const { STATUS, ADDRESS } = require("./const");
+const TasksList = require("./taskList");
 
 let tabFolder = new TabFolder({
   left: 0,
@@ -16,6 +17,10 @@ let day = createTab("每日任务");
 let week = createTab("每周任务");
 let normal = createTab("普通任务");
 let stage = createTab("阶段任务");
+
+// window.tasks = tasks;
+// console.log(tasks);
+
 let dayContent = createTask({ title: "每日任务" }, day);
 
 let weekContent = createTask({ title: "每周任务" }, week);
@@ -25,6 +30,8 @@ let normalContent = createTask({ title: "普通任务" }, normal);
 let stageContent = createTask({ title: "阶段任务" }, stage);
 
 tabFolder.on("selectionChanged", ({ value: tab }) => console.log(tab.title));
+
+
 
 function createTab(title) {
   let tab = new Tab({
@@ -39,7 +46,6 @@ function createTab(title) {
 }
 
 function createTask(data, tab) {
-  // console.log("12313213", data, tab);
   let composite = new Composite({
     left: 0,
     right: 0,
@@ -53,9 +59,12 @@ function createTask(data, tab) {
     text: "当前标签 :" + data.title,
     background: "#C7B3E5"
   }).appendTo(composite);
-  new TasksList({ id: "tasksList", filter: data.filter || "all" }).appendTo(
-    composite
-  );
+  new TasksList({
+    id: "tasksList",
+  //  data: window.data,
+    filter:  data.filter||"all",
+    classs: data.title
+  }).appendTo(composite);
   composite
     .find("#tasksList")
     .set({ left: 0, top: "prev() 5", right: 0, bottom: 40 });

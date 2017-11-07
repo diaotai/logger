@@ -61,7 +61,7 @@ module.exports = class MainPage extends Page {
     let about = createTab("我");
     Account.appendTo(about);
     tabFolder.on("selectionChanged", ({ value: tab }) => {
-      console.log(tabFolder.selection.title)
+      console.log(tabFolder.selection.title,localStorage.getItem("account"))
       if (tab.title == "任务") {
         this.pos="任务"
         createAction(null, () => {

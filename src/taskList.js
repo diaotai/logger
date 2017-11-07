@@ -7,23 +7,65 @@ const {
   AlertDialog,
   ui
 } = require("tabris");
-const tasks = require("./tasks");
+// let tasks=require("./tasks") ;
+const { CLASS, STATUS, ADDRESS } = require("./const");
+let tasks=[];
+if (window.tasks) {
+  tasks = window.tasks;
+  console.log("我被执行");
+} else {
+  let account = localStorage.getItem("account");
+  // fetch(`${ADDRESS}tasks/${account}`)
+  //   .then(res => {
+  //     return res.json();
+  //   })
+  //   .then(data => {
+  //     if (data.result == "fail") {
+  //       Warning(data.message);
+  //     } else {
+  //       // console.log(data,"))))))")
+  //       window.data = data.data;
+  //       tasks = window.tasks;
+  //       console.log(window.data,"windows!!!");
+  //     }
+  //   })
+  //   .catch(e => {
+  //     console.log("@@@@@", e);
+  //   });
+  tasks = require("./tasks")
+  console.log("被执行")
+}
+
+
 const DetailsPage = require("./taskDetailsPage");
+
 
 module.exports = class TasksList extends CollectionView {
   constructor(properties) {
     super(Object.assign({ id: "tasksList", cellHeight: 72 }, properties));
     this._tasks = tasks.filter(this.filter);
-    this.on('select', ({index}) => {
+    this.on("select", ({ index }) => {
       let data = tasks[index];
-      data = Object.assign(data,{});
-      new DetailsPage({data}).appendTo(ui.find("NavigationView").first());
+      data = Object.assign(data, {});
+      new DetailsPage({ data }).appendTo(ui.find("NavigationView").first());
     });
     this.itemCount = this.tasks.length;
   }
 
   get tasks() {
     return this._tasks;
+  }
+
+  set tasks(tasks) {
+    this._tasks = tasks;
+  }
+
+  set classs(classs) {
+    this._class = classs;
+  }
+
+  get classs() {
+    return this._class;
   }
 
   set filter(filter) {
@@ -33,16 +75,14 @@ module.exports = class TasksList extends CollectionView {
   get filter() {
     if (this._filter) {
       return item => {
-      //  console.log(item.status==this._filter,"!!!!",this._filter)
-        return this._filter == "all" || item.status == this._filter;
+        // console.log(this._class == item.classs, "!!!!", this._class);
+        return (
+          (this._filter == "all" || item.status == this._filter) &&
+          this._class == item.classs
+        );
       };
     }
     return () => true;
-  }
-
-  _showBookDetailsPage(book) {
-    // const BookDetailsPage = require('./BookDetailsPage');
-    // new BookDetailsPage({title: book.title, book}).appendTo(ui.find('NavigationView').first());
   }
 
   createCell() {
@@ -63,7 +103,7 @@ class TaskCell extends Composite {
     this._createUI();
     this._applyLayout();
     this._applyStyles();
-    this.on('longpress ', ({index}) => console.log("adfadg"));
+    this.on("longpress ", ({ index }) => console.log("adfadg"));
   }
 
   set title(title) {
