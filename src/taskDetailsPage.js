@@ -26,20 +26,20 @@ module.exports = class DetailsPage extends Page {
   get data() {
     return this._data;
   }
-  getLatestData(){
+  getLatestData() {
     return window.data;
   }
   createUI() {
     let { title, head, score, clas, type, stime } = this.data;
-    let that =this;
+    let that = this;
     ui.find("#addAction").dispose();
     if (!clas) {
       clas = 0;
     }
     let detailsView = new Composite({ id: "detailsView" }).appendTo(this);
-    let Ititle= createTextInput("title", title, detailsView);
-    let Iscore= createTextInput("score", score, detailsView);
-    let Itimes= createTextInput("times", stime, detailsView);
+    let Ititle = createTextInput("title", title, detailsView);
+    let Iscore = createTextInput("score", score, detailsView);
+    let Itimes = createTextInput("times", stime, detailsView);
     let Ipicker = new Picker({
       id: "classs",
       //left: 20,
@@ -49,7 +49,7 @@ module.exports = class DetailsPage extends Page {
       itemText: index => CLASS[index],
       selectionIndex: clas
     }).appendTo(detailsView);
-    let Itype= createTextInput("type", type, detailsView);
+    let Itype = createTextInput("type", type, detailsView);
     new Button({
       id: "submit",
       left: "5%",
@@ -59,18 +59,30 @@ module.exports = class DetailsPage extends Page {
     })
       .on("select", ({ target }) => {
         let data;
-        if (Object.keys(this.data).length!=0) {
+        if (Object.keys(this.data).length != 0) {
           data = Object.assign(this.data, {
             title: Ititle.text,
             score: Iscore.text,
-            stime:Itimes.text,
+            stime: Itimes.text,
             type: Itype.text,
             clas: Ipicker.selectionIndex
           });
-          window.data.push(data)
-        //  console.log(window.data.length,"window.data.length details")
+          delete data._id;
+          let index;
+          for (let i in window.data) {
+          //  console.log(i,window.data[i].title==data.title)
+            if (window.data[i].title == data.title) {
+              index = i;
+            }
+          }
+          if (index) {
+            window.data[index] = data;
+          } else {
+            window.data.push(data);
+          }
+          //  console.log(window.data.length,"window.data.length details")
         } else {
-        //  console.log("存储task",this.find("#title").text)
+          //  console.log("存储task",this.find("#title").text)
           data = {
             title: Ititle.text,
             score: Iscore.text,
@@ -91,10 +103,10 @@ module.exports = class DetailsPage extends Page {
         //   } else {
         //     console.log("存储成功");
         //     Warning(data.message)
-           
+
         //   }
         // });
-        that.dispose()
+        that.dispose();
       })
       .appendTo(detailsView);
     new Button({
@@ -144,5 +156,4 @@ module.exports = class DetailsPage extends Page {
       top: ["#type", "0"]
     });
   }
-
 };
