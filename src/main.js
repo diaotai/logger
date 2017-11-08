@@ -27,13 +27,20 @@ module.exports = class MainPage extends Page {
       if (this.pos == "任务") {
         createAction(null, () => {
           const DetailsPage = require("./taskDetailsPage");
-          new DetailsPage({data:{}}).appendTo(ui.find("NavigationView").first());
+          let details = new DetailsPage({ data: {} }).appendTo(
+            ui.find("NavigationView").first()
+          );
+          details.on("disappear", () => {
+            let lists = this.find("#tasksList");
+            for (let i = 0; i < 4; i++) {
+              lists[i].reload();
+            }
+          });
           console.log("Action");
         });
       } else if (this.pos == "统计") {
         createAction(null, () => {
           let data = {};
-
           new BillPage().appendTo(ui.find("NavigationView").first());
           console.log("Action");
           ui.find("#addAction").dispose();
@@ -73,7 +80,15 @@ module.exports = class MainPage extends Page {
         createAction(null, () => {
           let data = {};
           const DetailsPage = require("./taskDetailsPage");
-          new DetailsPage({ data }).appendTo(ui.find("NavigationView").first());
+          let details = new DetailsPage({ data }).appendTo(
+            ui.find("NavigationView").first()
+          );
+          details.on("disappear", () => {
+            let lists = this.find("#tasksList");
+            for (let i = 0; i < 4; i++) {
+              lists[i].reload();
+            }
+          });
           console.log("Action");
         });
       } else if (tab.title == "统计") {
@@ -108,7 +123,7 @@ module.exports = class MainPage extends Page {
       top: 0,
       left: 0,
       bottom: 0,
-      right: 0,
+      right: 0
       //background: "red"
     });
   }

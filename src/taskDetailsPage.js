@@ -30,7 +30,7 @@ module.exports = class DetailsPage extends Page {
     return window.data;
   }
   createUI() {
-    let { title, head, score, clas, type, stime, handleClick } = this.data;
+    let { title, head, score, clas, type, stime } = this.data;
     let that =this;
     ui.find("#addAction").dispose();
     if (!clas) {
@@ -60,7 +60,6 @@ module.exports = class DetailsPage extends Page {
       .on("select", ({ target }) => {
         let data;
         if (Object.keys(this.data).length!=0) {
-          // console.log("未成熟")
           data = Object.assign(this.data, {
             title: Ititle.text,
             score: Iscore.text,
@@ -69,7 +68,7 @@ module.exports = class DetailsPage extends Page {
             clas: Ipicker.selectionIndex
           });
           window.data.push(data)
-          console.log(window.data.length,"window.data.length details")
+        //  console.log(window.data.length,"window.data.length details")
         } else {
         //  console.log("存储task",this.find("#title").text)
           data = {
