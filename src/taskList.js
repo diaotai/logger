@@ -70,7 +70,8 @@ module.exports = class TasksList extends CollectionView {
   updateCell(view, index) {
     super.updateCell(view, index);
     let { title, author, score, stime, ftime } = this.tasks[index];
-    Object.assign(view, { title, author, score });
+    let time = `${ftime}/${stime}`;
+    Object.assign(view, { title, author, score, time });
   }
 };
 
@@ -80,7 +81,6 @@ class TaskCell extends Composite {
     this._createUI();
     this._applyLayout();
     this._applyStyles();
-    this.on("longpress ", ({ index }) => console.log("adfadg"));
   }
 
   set title(title) {
@@ -91,20 +91,31 @@ class TaskCell extends Composite {
     return this.find("#titleLabel").first().text;
   }
 
-  set author(author) {
-    this.find("#authorLabel").first().text = author;
-  }
+  // set stime(author) {
+  //   console.log("stime", author);
+  //   this.find("#authorLabel").first().text = author;
+  // }
 
-  get author() {
-    return this.find("#authorLabel").first().text;
-  }
+  // get stime() {
+  //   return this.find("#authorLabel").first().text;
+  // }
 
   set score(score) {
-    this.find("#scoreLabel").first().text = `<big>${score}</big>`;
+    this.find("#scoreLabel").first().text = `<big>+${score}</big>`;
   }
 
   get score() {
-    return this.find("#scoreLabel").first().text;
+    return this.find("#scoreLabel")
+      .first()
+      .text.slice(1);
+  }
+
+  set time(time) {
+    this.find("#timeLabel").first().text = time;
+  }
+
+  get time() {
+    return this.find("#timeLabel").first().text;
   }
 
   _createUI() {
@@ -113,7 +124,8 @@ class TaskCell extends Composite {
         console.log(event.value)
       ),
       new TextView({ id: "titleLabel", markupEnabled: true }),
-      new TextView({ id: "authorLabel" }),
+      //  new TextView({ id: "stimeLabel", text: "hello", markupEnabled: true }),
+      new TextView({ id: "timeLabel", text: "hello" }),
       new TextView({ id: "scoreLabel", markupEnabled: true })
     );
   }
@@ -121,9 +133,10 @@ class TaskCell extends Composite {
   _applyLayout() {
     this.apply({
       "#titleLabel": { left: 54, right: 16, top: 16 },
-      "#authorLabel": { left: 54, right: 16, top: "prev() 4" },
+      //  "#authorLabel": { left: 56, right: 16, top:  "prev() 2" },
       "#scoreLabel": { right: 36, top: 20 },
-      "#checkTask": { left: 16, centerY: 0 }
+      "#checkTask": { left: 16, centerY: 0 },
+      "#timeLabel": { left: 56, right: 16, top: "prev() 2" }
     });
   }
 
@@ -131,7 +144,7 @@ class TaskCell extends Composite {
     this.apply({
       "#checkTask": { tintColor: "#C7B3E5" },
       "#titleLabel": { textColor: "#4a4a4a" },
-      "#authorLabel": { textColor: "#7b7b7b" },
+      "#timeLabel": { textColor: "#7b7b7b" },
       "#scoreLabel": { textColor: "#37C6C0" }
     });
   }
