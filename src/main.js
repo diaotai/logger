@@ -43,10 +43,10 @@ module.exports = class MainPage extends Page {
   }
 
   get data() {
-    return this._data;
+    return window.data;
   }
   set data(data) {
-    this._data = data;
+    window.data = data;
   }
 
   createUI() {

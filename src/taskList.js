@@ -13,11 +13,23 @@ const { STATUS, CLASS } = require("./const");
 module.exports = class TasksList extends CollectionView {
   constructor(properties) {
     super(Object.assign({ id: "tasksList", cellHeight: 72 }, properties));
-    this._tasks = this.data.filter(this.filter);
+    this._tasks = window.data.filter(this.filter);
     this.on("select", ({ index }) => {
-      let data = this.data[index];
+     
+      let data = this.data[0];
       data = Object.assign(data, {});
-      new DetailsPage({ data }).appendTo(ui.find("NavigationView").first());
+      console.log(window.data.length,"length1");
+      let details = new DetailsPage({ data }).appendTo(
+        ui.find("NavigationView").first()
+      );
+      details.on("disappear", () => {
+         console.log("disappearzzxn",this.tasks.length)
+          this._tasks = window.data.filter(this.filter);
+         console.log(window.data.length,"window length")
+         console.log(this.tasks.length,"length!!!")
+         super.load(this.tasks.length);
+        
+      });
     });
     this.itemCount = this.tasks.length;
   }
@@ -69,6 +81,7 @@ module.exports = class TasksList extends CollectionView {
 
   updateCell(view, index) {
     super.updateCell(view, index);
+  //  console.log(index, "update");
     let { title, author, score, stime, ftime } = this.tasks[index];
     let time = `${ftime}/${stime}`;
     Object.assign(view, { title, author, score, time });
@@ -90,15 +103,6 @@ class TaskCell extends Composite {
   get title() {
     return this.find("#titleLabel").first().text;
   }
-
-  // set stime(author) {
-  //   console.log("stime", author);
-  //   this.find("#authorLabel").first().text = author;
-  // }
-
-  // get stime() {
-  //   return this.find("#authorLabel").first().text;
-  // }
 
   set score(score) {
     this.find("#scoreLabel").first().text = `<big>+${score}</big>`;

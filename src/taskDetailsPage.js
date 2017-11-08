@@ -26,8 +26,12 @@ module.exports = class DetailsPage extends Page {
   get data() {
     return this._data;
   }
+  getLatestData(){
+    return window.data;
+  }
   createUI() {
     let { title, head, score, clas, type, stime, handleClick } = this.data;
+    let that =this;
     ui.find("#addAction").dispose();
     if (!clas) {
       clas = 0;
@@ -64,6 +68,8 @@ module.exports = class DetailsPage extends Page {
             type: Itype.text,
             clas: Ipicker.selectionIndex
           });
+          window.data.push(data)
+          console.log(window.data.length,"window.data.length details")
         } else {
         //  console.log("存储task",this.find("#title").text)
           data = {
@@ -78,16 +84,18 @@ module.exports = class DetailsPage extends Page {
             initTime: new Date().valueOf()
           };
           // console.log(data)
-         
+          window.data.push(data);
         }
-        basicPost("task/save", data, data => {
-          if(data.result=="fail"){
-            Warning(data.message)
-          } else {
-            console.log("存储成功");
-            Warning(data.message)
-          }
-        });
+        // basicPost("task/save", data, data => {
+        //   if(data.result=="fail"){
+        //     Warning(data.message)
+        //   } else {
+        //     console.log("存储成功");
+        //     Warning(data.message)
+           
+        //   }
+        // });
+        that.dispose()
       })
       .appendTo(detailsView);
     new Button({

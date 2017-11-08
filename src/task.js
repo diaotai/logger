@@ -12,11 +12,11 @@ class Task extends Composite {
   }
 
   set data(data) {
-    this._data = data;
+    window.data = data;
   }
 
   get data() {
-    return this._data;
+    return window.data;
   }
 
   _createUI() {
