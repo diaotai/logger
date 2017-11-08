@@ -126,15 +126,39 @@ class TaskCell extends Composite {
   }
 
   _createUI() {
+    let time,
+      check,
+      that = this;
     this.append(
-      new CheckBox({ id: "checkTask" }).on("checkedChanged", event =>
-        console.log(event.value)
-      ),
+      (check = new CheckBox({ id: "checkTask" }).on("checkedChanged", event => {
+        if (event.value) {
+          addTime();
+        }
+      })),
       new TextView({ id: "titleLabel", markupEnabled: true }),
-      //  new TextView({ id: "stimeLabel", text: "hello", markupEnabled: true }),
-      new TextView({ id: "timeLabel", text: "hello" }),
+      (time = new TextView({ id: "timeLabel", text: "hello" })),
       new TextView({ id: "scoreLabel", markupEnabled: true })
     );
+    function addTime() {
+      console.log(time.text);
+      let times = time.text.split("/");
+      let ftime = times[0];
+      if (ftime == times[1]) {
+        return;
+      }
+      ftime = Number(ftime) + 1;
+      for (let i in window.data) {
+        if (window.data[i].title == that.title) {
+          window.data[i].ftime++;
+          break;
+        }
+      }
+      setTimeout(() => {
+        check.checked = false;
+        time.text = `${ftime}/${times[1]}`;
+      }, 1000);
+      console.log(window.data);
+    }
   }
 
   _applyLayout() {

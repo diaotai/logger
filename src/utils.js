@@ -6,12 +6,12 @@ module.exports = {
     ui.find("#addAction").dispose();
     new Action({
       id: "addAction",
-      title: "add",
+      title: "+",
       placementPriority: "normal",
-      image: {
-        src: "./images/book_1984.jpg",
-        scale: 2
-      }
+      // image: {
+      //   src: "./images/arrow-back-black-24dp@3x",
+      //   scale: 2
+      // }
     })
       .on("select", () => {
         click();
