@@ -20,7 +20,7 @@ class Task extends Composite {
   }
 
   _createUI() {
-    let that =this;
+    let that = this;
     let tabFolder = new TabFolder({
       left: 0,
       top: 0,
@@ -40,7 +40,7 @@ class Task extends Composite {
     let stageContent = createTask({ title: "阶段任务" }, stage);
 
     tabFolder.on("selectionChanged", ({ value: tab }) =>
-      console.log(tab.title)
+      tab.find("#tasksList")[0].reload()
     );
 
     tabFolder.appendTo(this);

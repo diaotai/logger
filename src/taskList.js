@@ -24,11 +24,7 @@ module.exports = class TasksList extends CollectionView {
       );
       details.on("disappear", () => {
          console.log("disappearzzxn",this.tasks.length)
-          this._tasks = window.data.filter(this.filter);
-         console.log(window.data.length,"window length")
-         console.log(this.tasks.length,"length!!!")
-         super.load(this.tasks.length);
-        
+         this.reload()
       });
     });
     this.itemCount = this.tasks.length;
@@ -72,6 +68,13 @@ module.exports = class TasksList extends CollectionView {
       };
     }
     return () => true;
+  }
+
+  reload(){
+    this._tasks = window.data.filter(this.filter);
+    // console.log(window.data.length,"window length")
+    // console.log(this.tasks.length,"length!!!")
+    super.load(this.tasks.length);
   }
 
   createCell() {
