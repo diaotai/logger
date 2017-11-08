@@ -26,9 +26,6 @@ module.exports = class DetailsPage extends Page {
   get data() {
     return this._data;
   }
-  getLatestData() {
-    return window.data;
-  }
   createUI() {
     let { title, head, score, clas, type, stime } = this.data;
     let that = this;
@@ -70,7 +67,7 @@ module.exports = class DetailsPage extends Page {
           delete data._id;
           let index;
           for (let i in window.data) {
-          //  console.log(i,window.data[i].title==data.title)
+            //  console.log(i,window.data[i].title==data.title)
             if (window.data[i].title == data.title) {
               index = i;
             }
@@ -97,15 +94,14 @@ module.exports = class DetailsPage extends Page {
           // console.log(data)
           window.data.push(data);
         }
-        // basicPost("task/save", data, data => {
-        //   if(data.result=="fail"){
-        //     Warning(data.message)
-        //   } else {
-        //     console.log("存储成功");
-        //     Warning(data.message)
-
-        //   }
-        // });
+        basicPost("task/save", data, data => {
+          if (data.result == "fail") {
+            Warning(data.message);
+          } else {
+            console.log("存储成功");
+            Warning(data.message);
+          }
+        });
         that.dispose();
       })
       .appendTo(detailsView);
@@ -119,17 +115,20 @@ module.exports = class DetailsPage extends Page {
     })
       .on("select", ({ target }) => {
         new AlertDialog({
-          title: "Conflict while saving",
-          message: "How do you want to resolve the conflict?",
+          title: "是否删除该任务",
+          message: "删除任务无法恢复，请谨慎操作",
           buttons: {
-            ok: "Replace",
-            cancel: "Discard",
-            neutral: "Keep editing"
+            ok: "确认",
+            cancel: "取消"
           }
         })
           .on({
-            closeOk: () => this.dispose(),
-            closeNeutral: () => console.log("Keep editing"),
+            closeOk: () => {
+              window.data=window.data.filter((item)=>{
+                return item.title!=that.data.title
+              })
+              this.dispose();
+            },
             closeCancel: () => console.log("Discard"),
             close: ({ button }) => console.log("Dialog closed: " + button)
           })
