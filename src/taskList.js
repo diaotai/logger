@@ -15,16 +15,16 @@ module.exports = class TasksList extends CollectionView {
     super(Object.assign({ id: "tasksList", cellHeight: 72 }, properties));
     this._tasks = window.data.filter(this.filter);
     this.on("select", ({ index }) => {
-     
-      let data = this.data[0];
+      console.log("index", index);
+      let data = this.tasks[index];
       data = Object.assign(data, {});
-      console.log(window.data.length,"length1");
+      //  console.log(window.data.length,"length1");
       let details = new DetailsPage({ data }).appendTo(
         ui.find("NavigationView").first()
       );
       details.on("disappear", () => {
-         console.log("disappearzzxn",this.tasks.length)
-         this.reload()
+        console.log("disappearzzxn", this.tasks.length);
+        this.reload();
       });
     });
     this.itemCount = this.tasks.length;
@@ -70,7 +70,7 @@ module.exports = class TasksList extends CollectionView {
     return () => true;
   }
 
-  reload(){
+  reload() {
     this._tasks = window.data.filter(this.filter);
     // console.log(window.data.length,"window length")
     // console.log(this.tasks.length,"length!!!")
@@ -84,7 +84,7 @@ module.exports = class TasksList extends CollectionView {
 
   updateCell(view, index) {
     super.updateCell(view, index);
-  //  console.log(index, "update");
+    //  console.log(index, "update");
     let { title, author, score, stime, ftime } = this.tasks[index];
     let time = `${ftime}/${stime}`;
     Object.assign(view, { title, author, score, time });
