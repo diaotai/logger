@@ -124,10 +124,17 @@ module.exports = class DetailsPage extends Page {
         })
           .on({
             closeOk: () => {
-              window.data=window.data.filter((item)=>{
-                return item.title!=that.data.title
-              })
-              this.dispose();
+              basicPost("task/delete", data, data => {
+                if (data.result == "fail") {
+                  Warning(data.message);
+                } else {
+                  Warning(data.message);
+                  window.data = window.data.filter(item => {
+                    return item.title != that.data.title;
+                  });
+                  this.dispose();
+                }
+              });
             },
             closeCancel: () => console.log("Discard"),
             close: ({ button }) => console.log("Dialog closed: " + button)
