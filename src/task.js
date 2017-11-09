@@ -19,6 +19,14 @@ class Task extends Composite {
     return window.data;
   }
 
+  set score(data) {
+    window.score = data;
+  }
+
+  get score() {
+    return window.score;
+  }
+
   _createUI() {
     let that = this;
     let tabFolder = new TabFolder({
@@ -75,18 +83,18 @@ class Task extends Composite {
         id: "tasksList",
         data: that.data,
         filter: data.filter || "all",
-        clas: data.title
+        clas: data.title,
       }).appendTo(composite);
       composite
         .find("#tasksList")
         .set({ left: 0, top: "prev() 5", right: 0, bottom: 40 });
       new TextView({
-        id: "score",
+        id: "theScore",
         left: 20,
         right: 300,
-        //  top: "prev() 15",
+        textColor:"#F17C67",
         bottom: 10,
-        text: "9324"
+        text: that.score
         //background: "#C7B3E5"
       }).appendTo(composite);
       let statusPicker = new Picker({

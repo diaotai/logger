@@ -56,6 +56,14 @@ module.exports = class MainPage extends Page {
     window.data = data;
   }
 
+  set score(data) {
+    window.score = data;
+  }
+
+  get score() {
+    return window.score;
+  }
+
   createUI() {
     let tabFolder = new TabFolder({
       id: "position",
