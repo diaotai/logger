@@ -114,7 +114,7 @@ class TaskCell extends Composite {
   get score() {
     return this.find("#scoreLabel")
       .first()
-      .text.slice(1);
+      .text.split('+')[1].split('<')[0];
   }
 
   set time(time) {
@@ -150,12 +150,18 @@ class TaskCell extends Composite {
       for (let i in window.data) {
         if (window.data[i].title == that.title) {
           window.data[i].ftime++;
+          window.score+=window.data[i].score;
           break;
         }
       }
       setTimeout(() => {
         check.checked = false;
         time.text = `${ftime}/${times[1]}`;
+        let theScore = ui.find("#theScore");
+        for(let i=0;i<4;i++){
+          console.log(theScore[i].text,"!!!!",that.score)
+          theScore[i].text = Number(theScore[i].text)+Number(that.score);
+        } 
       }, 1000);
       console.log(window.data);
     }
