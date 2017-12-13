@@ -20,5 +20,17 @@ module.exports = {
       .catch(e => {
         console.log("@@@@@", e);
       });
+  },
+  basicGet: (address,callback) => {
+    fetch(`${ADDRESS}/${address}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        callback(data)
+      })
+      .catch(e => {
+        console.log("@@@@@", e);
+      });
   }
 };

@@ -7,18 +7,25 @@ const {
   ui
 } = require("tabris");
 const bill = require("./tasks");
+const { basicGet } = require("./fetch")
 
 class BillList extends CollectionView {
   constructor(properties) {
     super(Object.assign({ id: "billList", cellHeight: 72 }, properties));
-    // this._tasks = tasks.filter(this.filter);
-    this._bill = bill;
+    let that = this;
+    basicGet(`/tasks/ftime/my`,(data)=>{
+      if(data.result){
+        that._bill = data.data;
+        that.itemCount = that.bill.length;
+      }
+    })
+   // this._bill = bill;
     this.on("select", ({ index }) => {
       let data = bill[index];
       data = Object.assign(data, {});
       new DetailsPage({ data }).appendTo(ui.find("NavigationView").first());
     });
-    this.itemCount = this.bill.length;
+    
   }
 
   get bill() {
@@ -32,7 +39,7 @@ class BillList extends CollectionView {
 
   updateCell(view, index) {
     super.updateCell(view, index);
-    let { title, author, score } = bill[index];
+    let { title, author, score } = this.bill[index];
     Object.assign(view, { title, time: new Date(), score });
   }
 }
