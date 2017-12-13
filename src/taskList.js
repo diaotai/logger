@@ -9,6 +9,7 @@ const {
 } = require("tabris");
 const DetailsPage = require("./taskDetailsPage");
 const { STATUS, CLASS } = require("./const");
+const { basicPost } = require("./fetch")
 
 module.exports = class TasksList extends CollectionView {
   constructor(properties) {
@@ -154,16 +155,26 @@ class TaskCell extends Composite {
           break;
         }
       }
-      setTimeout(() => {
-        check.checked = false;
-        time.text = `${ftime}/${times[1]}`;
-        let theScore = ui.find("#theScore");
-        for(let i=0;i<4;i++){
-          console.log(theScore[i].text,"!!!!",that.score)
-          theScore[i].text = Number(theScore[i].text)+Number(that.score);
-        } 
-      }, 1000);
-      console.log(window.data);
+      let data = {
+        account:localStorage.getItem("account"),
+        ftime,
+        title:that.title,
+        stime:times[1],
+        score:window.score,
+      }
+      basicPost("/task/addFtime",data,data=>{
+        setTimeout(() => {
+          check.checked = false;
+          time.text = `${ftime}/${times[1]}`;
+          let theScore = ui.find("#theScore");
+          for(let i=0;i<4;i++){
+            console.log(theScore[i].text,"!!!!",that.score)
+            theScore[i].text = Number(theScore[i].text)+Number(that.score);
+          } 
+        }, 1000);
+        console.log(window.data);
+      })
+
     }
   }
 
